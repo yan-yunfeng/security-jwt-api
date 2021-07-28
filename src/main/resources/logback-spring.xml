@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+
+    <!--输出到控制台，控制台的格式要用layout-->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger- %msg%n</pattern>
+        </layout>
+    </appender>
+
+    <!--访问日志输出到指定的文件-->
+    <appender name="visitLogAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--日志名称,如果不设置,则会使用rollingPolicy中的fileNamePattern,
+        如果同时都有,则当天的日志名称是file,历史的会根据fileNamePattern进行改名-->
+        <file>log/normal/visit.log</file>
+        <!--滚动策略，按照时间滚动-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名,这里用时间进行切分-->
+            <fileNamePattern>log/normal/visit.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!--设置最大保留天数-->
+            <maxHistory>90</maxHistory>
+            <!--用来指定日志文件的上限大小,如果到达上限,会删除旧的日志-->
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <!--日志输出编码格式化-->
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss}^%msg%n</pattern>
+        </encoder>
+        <!--精确过滤,只对匹配到的日志级别进行处理-->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <!--匹配到则接收-->
+            <onMatch>ACCEPT</onMatch>
+            <!--没有匹配到则拒绝-->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!--错误日志输出到指定的文件-->
+    <appender name="errorLogAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--日志名称,如果不设置,则会使用rollingPolicy中的fileNamePattern,
+        如果同时都有,则当天的日志名称是file,历史的会根据fileNamePattern进行改名-->
+        <file>log/error/error.log</file>
+        <!--滚动策略，按照时间滚动-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名,这里用时间进行切分-->
+            <fileNamePattern>log/error/error.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!--设置最大保留天数-->
+            <maxHistory>90</maxHistory>
+            <!--用来指定日志文件的上限大小,如果到达上限,会删除旧的日志-->
+            <totalSizeCap>2GB</totalSizeCap>
+        </rollingPolicy>
+        <!--日志输出编码格式化-->
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss}^%msg%n</pattern>
+        </encoder>
+        <!--精确过滤,只对匹配到的日志级别进行处理-->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <!--匹配到则接收-->
+            <onMatch>ACCEPT</onMatch>
+            <!--没有匹配到则拒绝-->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <logger name="com.yan.api.global.log.LogGlobalHandlerAop" level="INFO" additivity="false">
+        <appender-ref ref="visitLogAppender"/>
+        <appender-ref ref="errorLogAppender"/>
+    </logger>
+
+    <root level="info">
+        <appender-ref ref="console"/>
+    </root>
+
+</configuration>

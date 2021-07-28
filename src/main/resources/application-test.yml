@@ -1,0 +1,35 @@
+#datasource  开发环境
+spring:
+  datasource:
+    mysql:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://host:port/test?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+      username: username
+      password: password
+      #以下为连接池的相关参数配置
+      max-idle: 10
+      max-wait: 10000
+      min-idle: 5
+      initial-size: 5
+      validation-query: SELECT 1
+      test-on-borrow: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 18800
+      max-lifetime: 60000
+    security:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://host:port/database?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+      username: username
+      password: password
+      #以下为连接池的相关参数配置
+      max-idle: 10
+      max-wait: 10000
+      min-idle: 5
+      initial-size: 5
+      validation-query: SELECT 1
+      test-on-borrow: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 18800
+      max-lifetime: 60000
+    template:
+      max_rows: 1000
